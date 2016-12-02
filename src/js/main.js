@@ -164,6 +164,8 @@ function go() {
     var bigBall5 = new mover([5*width/8, 190], [0, 0], 70, gravOnVal, false);
     var bigBall6 = new mover([6*width/8, 190], [0, 0], 70, gravOnVal, false);
     var bigBall7 = new mover([7*width/8, 190], [0, 0], 70, gravOnVal, false);
+    var bigBalls = [{grav: true, ball:bigBall}, {grav: true, ball:bigBall2}, {grav: true, ball:bigBall3},
+        {grav: true, ball:bigBall4}, {grav: true, ball:bigBall5}, {grav: true, ball:bigBall6}, {grav: true, ball:bigBall7}];
 
     var topRight = new mover([width, 0], [0, 0], 70, gravOffVal, true);
     var topLeft = new mover([0, 0], [0, 0], 70, gravOffVal, true);
@@ -187,13 +189,14 @@ function go() {
         clearInterval(intV);
     }
 
-    function drawCircle(M, r, color) {
+    function drawCircle(M, r, color, strokeColor) {
         if (color == undefined) {
             color = "#bada55";
         }
         var circle = s.circle(M[0], M[1], r);
         circle.attr({
             fill:color,
+            stroke:strokeColor,
             strokeWidth: 1
         });
     }
@@ -218,8 +221,15 @@ function go() {
             colStr="#"+grad.getColor(1);
         }
         colStr = "#000";  // make all movers black
+        var strokeColor;
+        for (var i = bigBalls.length;i--;) {
+            if (mover == bigBalls[i].ball && bigBalls[i].grav) {
+                colStr = "#fff";
+                strokeColor = "#000";
+            }
+        }
         if (mover != planet2) {
-            drawCircle(mover.pos, mover.radius, colStr);
+            drawCircle(mover.pos, mover.radius, colStr, strokeColor);
         }
     }
 
@@ -232,6 +242,7 @@ function go() {
         this.isStatic = isStatic;
         this.id = idCount++;
         this.lastColliders = [];
+        this.polarity = true;
         this.move = function(time) {
             if (this.isStatic) {
                 return;
@@ -280,44 +291,26 @@ function go() {
     var gravOn = false;
     var gOn = 0;
 
+    function setGrav(idx, isOn) {
+        if (isOn) {
+            bigBalls[idx].grav = true;
+            bigBalls[idx].ball.mass = gravOnVal * 2;
+        } else {
+            bigBalls[idx].ball.mass = gravOffVal;
+            bigBalls[idx].grav = false;
+        }
+    }
+
+    function toggleGrav(idx) {
+        setGrav(idx, !bigBalls[idx].grav);
+    }
+
     /**
      * randomly switch gravitation of big balls
      */
     function switchGrav(){
-        if (Math.random()> 0.5) {
-            bigBall.mass=gravOnVal*-2;
-        } else {
-            bigBall.mass=gravOffVal;
-        }
-        if (Math.random()> 0.5) {
-            bigBall2.mass=gravOnVal*-2;
-        } else {
-            bigBall2.mass=gravOffVal;
-        }
-        if (Math.random()> 0.5) {
-            bigBall3.mass=gravOnVal*-2;
-        } else {
-            bigBall3.mass=gravOffVal;
-        }
-        if (Math.random()> 0.5) {
-            bigBall4.mass=gravOnVal*-2;
-        } else {
-            bigBall4.mass=gravOffVal;
-        }
-        if (Math.random()> 0.5) {
-            bigBall5.mass=gravOnVal*-2;
-        } else {
-            bigBall5.mass=gravOffVal;
-        }
-        if (Math.random()> 0.5) {
-            bigBall6.mass=gravOnVal*-2;
-        } else {
-            bigBall6.mass=gravOffVal;
-        }
-        if (Math.random()> 0.5) {
-            bigBall7.mass=gravOnVal*-2;
-        } else {
-            bigBall7.mass=gravOffVal;
+        for (var i = 0; i < bigBalls.length; i++) {
+            setGrav(i, Math.random() > 0.5);
         }
         if (Math.random()> 0.5) {
             topLeft.mass=gravOnVal*-1;
@@ -336,46 +329,12 @@ function go() {
         }
     }
 
-    document.body.addEventListener('click', function() {
-        gravOn = !gravOn;
-        gOn++;
-        gOn %= 3;
-        if (gOn == 0) {
-            bigBall.mass=gravOnVal*-2;
-            //bigBall2.mass=gravOnVal*-2;
-            bigBall2.mass=gravOffVal;
-            bigBall3.mass=gravOffVal;
-        }
-        if (gOn == 1) {
-            bigBall.mass=gravOffVal;
-            //bigBall2.mass=gravOnVal*-2;
-            bigBall2.mass=gravOnVal*-2;
-            bigBall3.mass=gravOffVal;
-        }
-        if (gOn == 2) {
-            bigBall.mass=gravOffVal;
-            //bigBall2.mass=gravOnVal*-2;
-            bigBall2.mass=gravOffVal;
-            bigBall3.mass=gravOnVal*-2;
-        }
-        if (!gravOn) {
-
-            bigBall4.mass=gravOffVal;
-            planet.mass=gravOnValBottom;
-            planet2.mass=gravOnValBottom;
-            topRight.mass = gravOnVal;
-            topLeft.mass = gravOnVal;
-        } else {
-            var neg = Math.random()<0.5?1:-1;
-            /*bigBall.mass=gravOnVal*-2;
-             //bigBall2.mass=gravOffVal;
-             bigBall2.mass=gravOnVal*-2;
-             bigBall3.mass=gravOnVal*-2;
-             bigBall4.mass=gravOnVal;*/
-            planet.mass=gravOffValBottom;
-            planet2.mass=gravOffValBottom;
-            topLeft.mass = gravOffVal;
-            topRight.mass = gravOffVal;
+    var g = 0;
+    document.addEventListener('keydown', function(evt) {
+        if (evt.keyCode >= 49 && evt.keyCode <= 55) {
+            var idx = evt.keyCode - 49;
+            //bigBalls[idx].ball.polarity = !bigBalls[idx].ball.polarity;
+            toggleGrav(idx);
         }
     });
 
@@ -459,6 +418,9 @@ function go() {
         for (var i = movers.length; i--;) {
             movers[i].move(timePassed);
         }
+        bigBalls.sort(function(a,b){
+            return a.ball.pos[0] - b.ball.pos[0];
+        });
         /** draw **/
         for (var i = 0; i < movers.length; i++) {
             drawMover(movers[i]);
@@ -474,7 +436,11 @@ function go() {
             for (var t = i+1; t <movers.length; t++) {
                 var f = doTheNewton(movers[i], movers[t]);
                 //movers[i].moveTowards(movers[t], f * movers[t].mass / movers[i].mass, timePassed);
-                movers[t].moveTowards(movers[i], f * movers[i].mass / movers[t].mass, timePassed);
+                var abs = 1;
+                if (movers[t].polarity != movers[i].polarity) {
+                    abs = -1;
+                }
+                movers[t].moveTowards(movers[i], abs*f * movers[i].mass / movers[t].mass, timePassed);
             }
         }
         timeSum += timePassed;

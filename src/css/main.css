@@ -88,34 +88,49 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-
-#container {
-    width:calc(4*(100vw - 40px)/2);
-    height:calc(4*(100vh - 40px)/2);
-    zoom: 50%;
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f0f9ff+0,cbebff+47,a1dbff+100;Blue+3D+%2313 */
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f0f9ff+0,8e8e8e+100 */
-    background: #f0f9ff; /* Old browsers */
-    background: -moz-linear-gradient(top,  #f0f9ff 0%, #8e8e8e 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #f0f9ff 0%,#8e8e8e 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #f0f9ff 0%,#8e8e8e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#8e8e8e',GradientType=0 ); /* IE6-9 */
-
-
+body {
+    margin: 0;
 }
 
+#container {
+    width:calc(4*(100vw)/2);
+    height:calc(4*(100vh - 39px)/2);
+    zoom: 50%;
+}
 
+#header-component {
+    height:35px;
+    width: 100vw;
+    background-color: #03192B;
+    margin-bottom: 3px;
+    color:white;
+}
 
+#header-left {
+    width: calc(100vw - 320px);
+    float:left;
+    text-align:left;
+    font-family: sans-serif;
+    font-weight: bold;
+    padding:5px;
+    padding-top:7px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
 
+#header-right {
+    padding-top:3px;
+    width: 295px;
+    float:left;
+    text-align:right;
+}
 
-
-
-
-
-
-
-
+@media (max-width: 700px) {
+    #header-component {
+        min-width: calc(100vw - 34px);
+    }
+}
 
 /* ==========================================================================
    Helper classes

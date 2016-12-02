@@ -453,7 +453,7 @@ function go() {
         s.clear();
         /** use custom gradient background
         var g = s.gradient("l(0,1, 0, 0.25)#"+grad.getColor(1)+"-#fff"); **/
-        var g = s.gradient("l(0,1, 0, 0.25)#f8e823-#fff");
+        var g = s.gradient("l(0,1, 0, 0.25)#777-#fff");
         s.rect(0,0,width, height).attr({fill:g});
         /** move **/
         for (var i = movers.length; i--;) {

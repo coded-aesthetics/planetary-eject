@@ -91,9 +91,9 @@ textarea {
 
 
 #container {
-    width:calc(4*(100vw - 40px)/3);
-    height:calc(4*(100vh - 40px)/3);
-    zoom: 75%;
+    width:calc(4*(100vw - 40px)/2);
+    height:calc(4*(100vh - 40px)/2);
+    zoom: 50%;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f0f9ff+0,cbebff+47,a1dbff+100;Blue+3D+%2313 */
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f0f9ff+0,8e8e8e+100 */
     background: #f0f9ff; /* Old browsers */

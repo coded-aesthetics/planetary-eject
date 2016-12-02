@@ -8,4 +8,4 @@ It is based on the law of gravity and uses billard ball physics to handle collis
 Each actor has a gravitational effect on each other.
 
 Use src/index.html to view.  
-All javascript code can be found in js/main.js
+All javascript code can be found in src/js/main.js

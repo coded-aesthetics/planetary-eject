@@ -180,7 +180,7 @@ function go() {
 
     /** populate movers (actors) array **/
     movers = [planet, bigBall, bigBall2, bigBall3, bigBall4, bigBall5, bigBall6, bigBall7];
-    for (var i = 0; i < 200; i++) {
+    for (var i = 0; i < 150; i++) {
         movers.push(spawnMover());
     }
 
@@ -450,7 +450,7 @@ function go() {
             timeSum = 0;
         }
         lastTime = thisTime;
-    },30);
+    },50);
 
     switchGrav();
 }
